@@ -1,16 +1,36 @@
 import '@fontsource-variable/inter'
 import 'virtual:uno.css'
 
-import { createApp } from 'vue';
-import App from './App.vue';
-import Badges from './Badges.vue';
-import { logger } from './utils/logger';
-import { hasParams } from './utils/funcs';
+import { createApp, createVNode, render } from 'vue';
+import App from '@/App.vue';
+import Badges from '@/Badges.vue';
+import { logger } from '@/utils/logger';
+import { hasParams } from '@/utils/url';
+import { $ } from '@/utils/selector';
 
+const app = createApp(App)
 const id = (import.meta.env.VITE_PROJECT_NAME as string).toLowerCase()
+
+function mountApp() {
+  const appDiv = document.createElement('div')
+  appDiv.id = id + '-ui'
+  $("#rt-main-surround", document.body)!.insertAdjacentElement('afterbegin', appDiv)
+  app.mount(appDiv)
+}
+
+function mountAppChild(Component: any, props: Record<string, any>, target: HTMLElement) {
+  const vnode = createVNode(Component, props);
+  vnode.appContext = app._context;
+  render(vnode, target);
+}
 
 // @unocss-include
 if (!window.frameElement) {
+  // app.use(PrimeVue, {
+  //   theme: {
+  //     preset: Aura
+  //   }
+  // })
 
   const url = new URL(window.location.href);
 
@@ -50,14 +70,10 @@ if (!window.frameElement) {
             sessionStorage.removeItem("scrollTo")
           }
 
-          createApp(Badges, { cid }).mount(
-            (() => {
-              const app = document.createElement('div')
-              app.id = id + '-ui-badges'
-              badgeContainer!.insertAdjacentElement('afterbegin', app)
-              return app;
-            })(),
-          );
+          const node = document.createElement('div')
+          node.id = id + '-ui-badges'
+          badgeContainer!.insertAdjacentElement('afterbegin', node)
+          mountAppChild(Badges, { cid }, node)
         })
       }
 
@@ -99,13 +115,6 @@ if (!window.frameElement) {
     })
   }
 
-  createApp(App).mount(
-    (() => {
-      const app = document.createElement('div')
-      app.id = id + '-ui'
-      document.body.querySelector("#rt-main-surround")!.insertAdjacentElement('afterbegin', app)
-      return app;
-    })(),
-  );
+  mountApp()
 }
 

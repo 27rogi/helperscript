@@ -1,17 +1,11 @@
 <script setup lang="ts">
+import { getPlayerNames } from "@/modules/player";
+import { getTeams } from "@/modules/team";
+import { applyStats, setCheckboxes } from "@/modules/tournament";
+import type { Stat, StatType } from "@/types/stat";
+import type { TournamentEntry } from "@/types/tournament";
+import { onProtocolSave } from "@/utils/events";
 import { useSessionStorage } from "@vueuse/core";
-import {
-  onProtocolSave,
-  getTeams,
-  getPlayerNames,
-  applyStats,
-  // getPlayers,
-  setCheckboxes,
-  Stat,
-  // getPlayerData,
-  // getPlayer,
-  TournamentEntry,
-} from "../utils/funcs";
 
 const url = new URL(window.location.href);
 
@@ -30,10 +24,10 @@ const tournament = useSessionStorage<TournamentEntry>(
   }
 );
 
-const newStat = (team: "a" | "b") => {
+const newStat = (team: "a" | "b", type: StatType = "goal") => {
   tournament.value.stats[team].push({
     player: players![team][0],
-    type: "goal",
+    type,
     time: 0,
   });
 };
@@ -89,15 +83,28 @@ if (teamSize.value !== 0) {
   <div class="flex flex-row gap-2 items-start">
     <div
       v-for="(key, index) in ['a', 'b']"
-      class="rounded-md flex flex-col bg-gray-200 p-2 w-1/2 gap-1 items-center"
+class="rounded-md flex flex-col bg-gray-200 p-2 w-1/2 gap-1 items-center"
     >
       <p>Команда {{ teams![index].querySelector(".demo-title")?.innerHTML }}</p>
-      <button
-        class="w-full lh-btn lh-btn__green"
+      <div class="grid grid-cols-4 gap-2 w-full">
+        <button
+class="col-span-4 w-full lh-btn lh-btn__green"
         @click="() => newStat(index === 0 ? 'a' : 'b')"
       >
         +
       </button>
+        <button class="col-span-1 w-full lh-btn lh-btn__yellow"
+          @click="() => newStat(index === 0 ? 'a' : 'b', 'yellow')">
+          ЖК
+        </button>
+        <button class="col-span-1 w-full lh-btn lh-btn__yellow"
+          @click="() => newStat(index === 0 ? 'a' : 'b', '2yellow')">
+          2ЖК
+        </button>
+        <button class="col-span-2 w-full lh-btn lh-btn__red" @click="() => newStat(index === 0 ? 'a' : 'b', 'red')">
+          КК
+        </button>
+      </div>
       <div
         v-if="tournament.stats[index === 0 ? 'a' : 'b'].length > 0"
         class="text-center w-full grid gap-2 grid-cols-4 justify-center items-center"

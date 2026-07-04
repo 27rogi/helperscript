@@ -7,10 +7,13 @@ const { VITE_SITE_URL: url, VITE_PROJECT_NAME: project } = import.meta.env;
 if (url.length <= 0) throw Error("Please provide correct VITE_SITE_URL env!")
 
 export default defineConfig({
+  resolve: {
+    tsconfigPaths: true
+  },
   build: {
     minify: true,
   },
-  plugins: [,
+  plugins: [
     unocss(),
     vue(),
     monkey({

@@ -5,10 +5,8 @@ const prefix = {
     }
 }
 
-const logger = {
+export const logger = {
     info(text: String, module = "Info") {
         return console.info(`%c${prefix.info.text} (${module})`, prefix.info.style, text);
     }
 }
-
-export { logger };

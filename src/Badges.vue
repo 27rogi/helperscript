@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSessionStorage } from "@vueuse/core";
-import { TournamentEntry } from "./utils/funcs";
+import { TournamentEntry } from "@/types/tournament";
 
 const props = defineProps(["cid"]);
 // const url = new URL(window.location.href);

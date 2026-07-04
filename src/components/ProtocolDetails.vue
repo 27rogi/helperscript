@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { onProtocolSave } from "@/utils/events";
+import { applyTimings } from "@/modules/tournament";
+import type { TournamentEntry } from "@/types/tournament";
 import { useSessionStorage } from "@vueuse/core";
-import { onProtocolSave, TournamentEntry, applyTimings } from "../utils/funcs";
-// import { logger } from "../utils/logger";
 
 const url = new URL(window.location.href);
 
