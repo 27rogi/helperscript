@@ -1,36 +1,37 @@
-import { getTeams } from "@/modules/team"
-import { $, $all } from "../utils/selector"
+/* eslint-disable unicorn/prefer-dom-node-text-content */
+import { getTeams } from '@/modules/team'
+import { $, $all } from '../utils/selector'
 
-export const getPlayers = () => {
+export function getPlayers() {
   const players: { a: HTMLElement[], b: HTMLElement[] } = {
     a: [],
-    b: []
+    b: [],
   }
   const teams = getTeams()
   teams!.forEach((team, i) => {
-    $all("tr[class]", team).forEach((player) => {
-      players[i === 0 ? "a" : "b"].push(player)
+    $all('tr[class]', team).forEach((player) => {
+      players[i === 0 ? 'a' : 'b'].push(player)
     })
   })
-  return players;
+  return players
 }
 
-export const getPlayer = (name: String): HTMLElement | null => {
-  const players = $all(".rt-joomla-table tr[class] td:nth-child(2) a")
+export function getPlayer(name: string): HTMLElement | null {
+  const players = $all('.rt-joomla-table tr[class] td:nth-child(2) a')
   for (const player of players) {
     if (player.innerText.toLowerCase() === name.toLowerCase()) {
-      return player.parentElement!.parentElement!;
+      return player.parentElement!.parentElement!
     }
   }
-  return null;
+  return null
 }
 
-export const getPlayerData = (player: HTMLElement) => {
-  const data = $all("td .inputbox", player) as NodeListOf<HTMLInputElement>;
+export function getPlayerData(player: HTMLElement) {
+  const data = $all('td .inputbox', player) as NodeListOf<HTMLInputElement>
   return {
-    name: $("td:nth-child(2) a", player)!.innerText,
-    role: $("td:nth-child(5) a", player)!.innerText,
-    number: Number($("td:nth-child(2) a", player)!.innerText.replace(/\D+/g, "").replace(/\b0+\B/g, "")),
+    name: $('td:nth-child(2) a', player)!.innerText,
+    role: $('td:nth-child(5) a', player)!.innerText,
+    number: Number($('td:nth-child(2) a', player)!.innerText.replace(/\D+/g, '').replace(/\b0+\B/g, '')),
     refs: {
       playing: data[0],
       primary: data[1],
@@ -44,20 +45,20 @@ export const getPlayerData = (player: HTMLElement) => {
       yellow: data[9],
       doubleyellow: data[10],
       red: data[11],
-    }
-  };
+    },
+  }
 }
 
-export const getPlayerNames = () => {
+export function getPlayerNames() {
   const players = getPlayers()
-  const names = <{ a: String[], b: String[] }>{
+  const names = <{ a: string[], b: string[] }>{
     a: [],
     b: [],
   }
   Object.keys(players).forEach((_p, i) => {
     players[i === 0 ? 'a' : 'b'].forEach((player) => {
-      names[i === 0 ? 'a' : 'b'].push($("td:nth-child(2) a", player)!.innerText)
+      names[i === 0 ? 'a' : 'b'].push($('td:nth-child(2) a', player)!.innerText)
     })
   })
-  return names;
+  return names
 }

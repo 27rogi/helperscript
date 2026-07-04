@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useSessionStorage } from "@vueuse/core";
-import { TournamentEntry } from "@/types/tournament";
+import type { TournamentEntry } from '@/types/tournament'
+import { useSessionStorage } from '@vueuse/core'
 
-const props = defineProps(["cid"]);
+const props = defineProps(['cid'])
 // const url = new URL(window.location.href);
 
 const tournament = useSessionStorage<TournamentEntry>(
@@ -17,23 +17,23 @@ const tournament = useSessionStorage<TournamentEntry>(
   },
   {
     deep: true,
-  }
-);
+  },
+)
 </script>
 
 <template>
   <div
-    class="flex flex-row font-base font-extrabold m-auto text-xs gap-0.5 justify-center"
+    class="text-xs font-base font-extrabold m-auto flex flex-row gap-0.5 justify-center"
   >
     <p
-      class="rounded-md bg-green-600 text-white py-0.5 px-1 inline-flex m-0"
       v-if="tournament.isGoalsFilled"
+      class="text-white m-0 px-1 py-0.5 rounded-md bg-green-600 inline-flex"
     >
       Г
     </p>
     <p
-      class="rounded-md bg-blue-400 text-white py-0.5 px-1 inline-flex m-0"
       v-if="tournament.isDataFilled"
+      class="text-white m-0 px-1 py-0.5 rounded-md bg-blue-400 inline-flex"
     >
       Д
     </p>

@@ -1,27 +1,29 @@
 <script setup lang="ts">
-import ProtocolEditor from "#/ProtocolEditor.vue";
-import ProtocolDetails from "#/ProtocolDetails.vue";
-import { hasParams } from "@/utils/url";
-import { useLocalStorage } from "@vueuse/core";
+import { useLocalStorage } from '@vueuse/core'
+import ProtocolDetails from '#/ProtocolDetails.vue'
+import ProtocolEditor from '#/ProtocolEditor.vue'
+import { hasParams } from '@/utils/url'
 
-const url = new URL(window.location.href);
-const showMenu = useLocalStorage("script-menu-hidden", false);
+const url = new URL(window.location.href)
+const showMenu = useLocalStorage('script-menu-hidden', false)
 </script>
 
 <template>
   <div class="app -my-2">
-    <div class="flex flex-col text-xs mb-2 px-2">
-      <button class="lh-btn" @click="showMenu = !showMenu">{{ showMenu ? "Закрыть" : "Открыть" }} скрипт</button>
+    <div class="text-xs mb-2 px-2 flex flex-col">
+      <button class="lh-btn" @click="showMenu = !showMenu">
+        {{ showMenu ? "Закрыть" : "Открыть" }} скрипт
+      </button>
     </div>
-    <div v-if="showMenu" class="flex flex-col font-bold text-base pb-2 px-4 gap-2">
+    <div v-if="showMenu" class="text-base font-bold px-4 pb-2 flex flex-col gap-2">
       <div class="flex flex-row gap-2 items-center">
         <h1 class="text-sm">
           Турнир #<span class="text-blue-600 font-bold">{{ url.searchParams.get("cid[]") }}</span> (Протокол #
           <span class="text-blue-600 font-bold">{{
             url.searchParams.get("tournament_id")
-}}</span>)
+          }}</span>)
         </h1>
-        <div class="flex flex-row flex-wrap ml-auto">
+        <div class="ml-auto flex flex-row flex-wrap">
           <p v-if="url.searchParams.has('mode')" class="infoblock">
             Режим: {{ url.searchParams.get("mode") }}
           </p>

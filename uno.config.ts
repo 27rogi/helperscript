@@ -1,7 +1,7 @@
-import { defineConfig, presetWind4 } from 'unocss'
-import transformerDirectives from '@unocss/transformer-directives'
 import transformerClass from '@unocss/transformer-compile-class'
+import transformerDirectives from '@unocss/transformer-directives'
 import transformerVariant from '@unocss/transformer-variant-group'
+import { defineConfig, presetWind4 } from 'unocss'
 
 export default defineConfig({
   presets: [
@@ -15,7 +15,7 @@ export default defineConfig({
   theme: {
     font: {
       base: `'Inter', 'Segoe UI', 'sans-serif'`,
-    }
+    },
   },
   content: {
     pipeline: {
@@ -23,8 +23,8 @@ export default defineConfig({
         // the default
         /\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/,
         // include js/ts files
-        "(components|src)/**/*.{js,ts}",
+        '(components|src)/**/*.{js,ts}',
       ],
     },
-  }
+  },
 })

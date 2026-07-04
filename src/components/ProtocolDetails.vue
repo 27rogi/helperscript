@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { onProtocolSave } from "@/utils/events";
-import { applyTimings } from "@/modules/tournament";
-import type { TournamentEntry } from "@/types/tournament";
-import { useSessionStorage } from "@vueuse/core";
+import type { TournamentEntry } from '@/types/tournament'
+import { useSessionStorage } from '@vueuse/core'
+import { applyTimings } from '@/modules/tournament'
+import { onProtocolSave } from '@/utils/events'
 
-const url = new URL(window.location.href);
+const url = new URL(window.location.href)
 
 const tournament = useSessionStorage<TournamentEntry>(
-  `tour_${url.searchParams.get("cid[]")}`,
+  `tour_${url.searchParams.get('cid[]')}`,
   {
     isGoalsFilled: false,
     isDataFilled: false,
@@ -18,20 +18,20 @@ const tournament = useSessionStorage<TournamentEntry>(
   },
   {
     deep: true,
-  }
-);
+  },
+)
 
-const { a, b } = JSON.parse(JSON.stringify(tournament.value.stats));
+const { a, b } = JSON.parse(JSON.stringify(tournament.value.stats))
 
 onProtocolSave(() => {
-  tournament.value.isDataFilled = true;
-});
+  tournament.value.isDataFilled = true
+})
 </script>
 
 <template>
   <div class="details">
-    <div class="grid gap-2 grid-cols-4">
-      <div class="rounded-md bg-green-200 p-2 text-green-900" v-for="stat of [...a, ...b]">
+    <div class="gap-2 grid grid-cols-4">
+      <div :key="stat" v-for="stat of [...a, ...b]" class="text-green-900 p-2 rounded-md bg-green-200">
         <p>
           <b>{{ stat.player }}</b>
         </p>
@@ -40,7 +40,7 @@ onProtocolSave(() => {
       </div>
     </div>
     <div class="flex flex-col">
-      <button class="w-full lh-btn lh-btn__blue" @click="() => applyTimings(tournament.stats)">
+      <button class="lh-btn lh-btn__blue w-full" @click="() => applyTimings(tournament.stats)">
         Автозаполнение
       </button>
     </div>
@@ -55,7 +55,6 @@ onProtocolSave(() => {
 p {
   @apply m-0 p-0;
 }
-
 
 input,
 select {
